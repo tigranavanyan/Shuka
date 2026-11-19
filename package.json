@@ -1,0 +1,35 @@
+{
+  "name": "shuka",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Shuka — Amazon-style marketplace for Armenia (cash on delivery)",
+  "type": "module",
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "local": "npm run build && node scripts/migrate.js && node scripts/seed.js --if-empty && node server/index.js",
+    "dev": "node scripts/dev.js",
+    "build": "vite build",
+    "start": "node scripts/migrate.js && node server/index.js",
+    "migrate": "node scripts/migrate.js",
+    "seed": "node scripts/seed.js",
+    "seed:reset": "node scripts/seed.js --reset",
+    "backup": "node scripts/backup.js",
+    "breakit:live": "node scripts/breakit-live.js",
+    "test": "node --test --test-concurrency=1 tests/*.test.js"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "better-sqlite3": "^11.7.0",
+    "cookie-parser": "^1.4.7",
+    "express": "^4.21.2",
+    "multer": "^1.4.5-lts.1",
+    "sharp": "^0.33.5"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.3.4",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.28.0",
+    "vite": "^5.4.11"
+  }
+}
