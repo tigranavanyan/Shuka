@@ -16,6 +16,10 @@ export const PORT = Number(process.env.PORT || 3000);
 export const BCRYPT_ROUNDS = Number(process.env.BCRYPT_ROUNDS || 10);
 export const MAX_IMAGE_BYTES = 5 * 1024 * 1024; // 5 MB per photo
 export const PAGE_SIZE = 24;
+// Extra origins allowed to send writes, e.g. the Netlify site that proxies /api here.
+// Comma-separated: FRONTEND_ORIGIN=https://shuka.netlify.app
+export const ALLOWED_ORIGINS = (process.env.FRONTEND_ORIGIN || '')
+  .split(',').map((s) => s.trim().replace(/\/$/, '')).filter(Boolean);
 
 let secret = process.env.SESSION_SECRET;
 if (!secret) {

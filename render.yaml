@@ -1,18 +1,26 @@
-# Render alternative: a web service with a persistent disk (paid plan required for disks).
+# Render backend (API + SQLite + uploads). The frontend is on Netlify.
+# Needs a paid instance type: Free web services cannot attach a disk.
 services:
   - type: web
-    name: shuka
-    runtime: docker
+    name: shuka-api
+    runtime: node
     plan: starter
+    region: frankfurt
+    buildCommand: npm ci
+    startCommand: npm run start:render
     healthCheckPath: /healthz
     envVars:
       - key: NODE_ENV
         value: production
+      - key: NODE_VERSION
+        value: "22"
       - key: DATA_DIR
-        value: /data
+        value: /var/data
       - key: SESSION_SECRET
         generateValue: true
+      - key: FRONTEND_ORIGIN
+        sync: false        # set to your Netlify URL, e.g. https://shuka.netlify.app
     disk:
       name: shuka-data
-      mountPath: /data
+      mountPath: /var/data
       sizeGB: 1

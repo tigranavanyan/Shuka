@@ -1,5 +1,5 @@
 import crypto from 'node:crypto';
-import { SESSION_SECRET, IS_PROD } from './config.js';
+import { SESSION_SECRET, IS_PROD, ALLOWED_ORIGINS } from './config.js';
 import { unauthorized, forbidden } from './errors.js';
 
 // Stateless signed session cookie: "<userId>.<expiresMs>.<hmac>", httpOnly.
@@ -68,6 +68,7 @@ export function sameOriginWrites(req, res, next) {
   if (['GET', 'HEAD', 'OPTIONS'].includes(req.method)) return next();
   const origin = req.get('origin');
   if (!origin) return next(); // non-browser clients (tests, curl)
+  if (ALLOWED_ORIGINS.includes(origin.replace(/\/$/, ''))) return next();
   try {
     const host = req.get('x-forwarded-host') || req.get('host');
     if (new URL(origin).host === host) return next();

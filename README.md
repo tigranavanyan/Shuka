@@ -106,7 +106,19 @@ To run the two concurrency tests against the **live** site:
 npm run breakit:live -- https://your-app.fly.dev
 ```
 
-## Deploy (Fly.io, with a persistent volume)
+## Deploy: frontend on Netlify, backend on Render
+
+- **Render** runs the API + SQLite + uploads (`render.yaml`). It needs a paid
+  instance (Starter) with a persistent disk mounted at `/var/data` — Free
+  web services cannot keep files. Env: `NODE_ENV=production`, `NODE_VERSION=22`,
+  `DATA_DIR=/var/data`, `SESSION_SECRET=<random>`, `FRONTEND_ORIGIN=https://<site>.netlify.app`.
+  Build `npm ci`, start `npm run start:render` (migrates, seeds once if empty, starts).
+- **Netlify** serves the built React app (`netlify.toml`) and proxies `/api/*`
+  and `/uploads/*` to Render, so the browser only talks to the Netlify domain
+  and the httpOnly cookie stays first-party (works in private windows too).
+  Replace `YOUR-RENDER-SERVICE` in `netlify.toml` before deploying.
+
+## Deploy alternative: everything on Fly.io (one process, as in the brief)
 
 Serverless hosts without a disk would lose the database — use a machine with a volume.
 

@@ -1,0 +1,30 @@
+# Netlify hosts the built React app. Every /api and /uploads request is
+# proxied to the Render backend, so the browser only ever talks to the
+# Netlify domain: the login cookie is first-party and no CORS is needed.
+#
+# >>> Replace YOUR-RENDER-SERVICE with your Render service name (2 places) <<<
+
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "22"
+
+[[redirects]]
+  from = "/api/*"
+  to = "https://YOUR-RENDER-SERVICE.onrender.com/api/:splat"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/uploads/*"
+  to = "https://YOUR-RENDER-SERVICE.onrender.com/uploads/:splat"
+  status = 200
+  force = true
+
+# Single-page app: every other path serves index.html
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
