@@ -2,7 +2,7 @@
 # proxied to the Render backend, so the browser only ever talks to the
 # Netlify domain: the login cookie is first-party and no CORS is needed.
 #
-# >>> Replace YOUR-RENDER-SERVICE with your Render service name (2 places) <<<
+# >>> Replace shuka-ez2l with your Render service name (2 places) <<<
 
 [build]
   command = "npm run build"
@@ -13,13 +13,13 @@
 
 [[redirects]]
   from = "/api/*"
-  to = "https://YOUR-RENDER-SERVICE.onrender.com/api/:splat"
+  to = "https://shuka-ez2l.onrender.com/api/:splat"
   status = 200
   force = true
 
 [[redirects]]
   from = "/uploads/*"
-  to = "https://YOUR-RENDER-SERVICE.onrender.com/uploads/:splat"
+  to = "https://shuka-ez2l.onrender.com/uploads/:splat"
   status = 200
   force = true
 
